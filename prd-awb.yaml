@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prd-hlm-proxy
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: com-keyhero-accounts-tls-secret
+  namespace: prd-hlm-proxy
+data:
+  tls.crt:  __com-keyhero-accounts-tls-crt__
+  tls.key:  __com-keyhero-accounts-tls-key__
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prd-hlm-com-keyhero-accounts
+  namespace: prd-hlm-proxy
+  annotations:
+    ingress.appscode.com/use-dns-resolver: "true"
+    ingress.appscode.com/dns-resolver-nameservers: '["8.8.8.8:53", "8.8.4.4:53"]'
+    ingress.appscode.com/backend-tls: ssl verify none
+spec:
+  type: ExternalName
+  externalName: login-hillman.unikey.com
+---
+apiVersion: voyager.appscode.com/v1beta1
+kind: Ingress
+metadata:
+  name: prd-hlm-com-mykeyhero-accounts-ingress
+  namespace: prd-hlm-proxy
+  annotations:
+    ingress.appscode.com/keep-source-ip: "true"
+    ingress.appscode.com/type: LoadBalancer
+    ingress.appscode.com/load-balancer-ip: "13.82.172.209"
+spec:
+  tls:
+  - secretName: com-keyhero-accounts-tls-secret
+    hosts:
+    - accounts.mykeyhero.com
+  rules:
+  - host: accounts.mykeyhero.com
+    http:
+      paths:
+      - backend:
+          serviceName: prd-hlm-com-keyhero-accounts
+          servicePort: "443"
+          headerRules:
+          - Host login-hillman.unikey.com
+          backendRules:
+          - 'acl response-is-redirect res.hdr(Location) -m found'
+          - 'rspirep ^Location:\ (http|https)://(login-hillman\.unikey\.com)(.*) Location:\ https://accounts.mykeyhero.com\3 if response-is-redirect'
+---
+apiVersion: voyager.appscode.com/v1beta1
+kind: Ingress
+metadata:
+  name: stats-ingress
+  namespace: prd-hlm-proxy
+  annotations:
+    ingress.appscode.com/type: 'Internal'
+    ingress.appscode.com/stats: 'true'
+    ingress.appscode.com/stats-port: "56789"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: web
+          servicePort: 80      
+      

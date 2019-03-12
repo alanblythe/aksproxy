@@ -1,0 +1,12 @@
+[
+	{
+		"op" : "replace" ,
+		"path" : "/spec/template/spec/containers/0/readinessProbe/httpGet/port",
+		"value" : 56791
+	},
+	{
+		"op" : "replace" ,
+		"path" : "/spec/template/spec/containers/0/readinessProbe/httpGet/scheme",
+		"value" : "HTTP"
+	}
+]
