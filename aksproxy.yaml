@@ -9,8 +9,8 @@ metadata:
   name: net-alanblythe-demo-tls-secret
   namespace: aks-proxy
 data:
-  tls.crt:  
-  tls.key:  
+  tls.crt:  MGZhZTNhZTEtMjJjMS00MGE2LTgxM2ItZDVhOTUxMGQ1ZTdk
+  tls.key:  ZWNhOTcxNWEtYWE3YS00ZjM1LWE0NzUtMzk3ZTY3ZTEwMzE0
 ---
 apiVersion: v1
 kind: Service
@@ -23,7 +23,7 @@ metadata:
     ingress.appscode.com/backend-tls: ssl verify none
 spec:
   type: ExternalName
-  externalName: aksproxydemo20190312041303.azurewebsites.net
+  externalName: aksproxydemo20190312062330.azurewebsites.net
 ---
 apiVersion: voyager.appscode.com/v1beta1
 kind: Ingress
@@ -45,10 +45,10 @@ spec:
           serviceName: net-alanblythe-demo
           servicePort: "443"
           headerRules:
-          - Host aksproxydemo20190312041303.azurewebsites.net
+          - Host aksproxydemo20190312062330.azurewebsites.net
           backendRules:
           - 'acl response-is-redirect res.hdr(Location) -m found'
-          - 'rspirep ^Location:\ (http|https)://(aksproxydemo20190312041303\.azurewebsites\.net)(.*) Location:\ https://demo.alanblythe.net\3 if response-is-redirect'
+          - 'rspirep ^Location:\ (http|https)://(aksproxydemo20190312062330\.azurewebsites\.net)(.*) Location:\ https://demo.alanblythe.net\3 if response-is-redirect'
 ---
 apiVersion: voyager.appscode.com/v1beta1
 kind: Ingress

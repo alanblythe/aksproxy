@@ -18,10 +18,10 @@ spec:
           serviceName: net-alanblythe-demo
           servicePort: "443"
           headerRules:
-          - Host aksproxydemo20190312041303.azurewebsites.net
+          - Host aksproxydemo20190312062330.azurewebsites.net
           backendRules:
           - 'acl response-is-redirect res.hdr(Location) -m found'
-          - 'rspirep ^Location:\ (http|https)://(aksproxydemo20190312041303\.azurewebsites\.net)(.*) Location:\ https://demo.alanblythe.net\3 if response-is-redirect'
+          - 'rspirep ^Location:\ (http|https)://(aksproxydemo20190312062330\.azurewebsites\.net)(.*) Location:\ https://demo.alanblythe.net\3 if response-is-redirect'
           - 'http-response set-header X-Added-From-Proxy see we can add headers'
           - 'rspirep ^value1 updatedvalue1'
           - 'rspirep ^value2 updatedvalue2'

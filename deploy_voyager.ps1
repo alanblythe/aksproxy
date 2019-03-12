@@ -22,7 +22,7 @@ function DeployVoyager
     az login | Out-Null
     az account set --subscription $subscriptionName
 
-    az aks get-credentials --resource-group $resourceGroupName --name $clusterName
+    az aks get-credentials --resource-group $resourceGroupName --name $clusterName --overwrite-existing
 
     helm repo add appscode https://charts.appscode.com/stable/
     helm init --service-account tiller --upgrade --wait
