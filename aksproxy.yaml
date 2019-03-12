@@ -9,8 +9,8 @@ metadata:
   name: net-alanblythe-demo-tls-secret
   namespace: aks-proxy
 data:
-  tls.crt:  __net-alanblythe-demo-tls-crt__
-  tls.key:  __net-alanblythe-demo-tls-key__
+  tls.crt:  
+  tls.key:  
 ---
 apiVersion: v1
 kind: Service
@@ -31,7 +31,6 @@ metadata:
   name: net-alanblythe-demo-ingress
   namespace: aks-proxy
   annotations:
-    ingress.appscode.com/keep-source-ip: "true"
     ingress.appscode.com/type: LoadBalancer
 spec:
   tls:
@@ -46,7 +45,7 @@ spec:
           serviceName: net-alanblythe-demo
           servicePort: "443"
           headerRules:
-          - Host demo.alanblythe.net
+          - Host aksproxydemo20190312041303.azurewebsites.net
           backendRules:
           - 'acl response-is-redirect res.hdr(Location) -m found'
           - 'rspirep ^Location:\ (http|https)://(aksproxydemo20190312041303\.azurewebsites\.net)(.*) Location:\ https://demo.alanblythe.net\3 if response-is-redirect'

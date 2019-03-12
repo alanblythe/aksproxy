@@ -34,7 +34,7 @@ function CreateAksAndKeyVault
 
     az group create --name $resourceGroupName --location eastus
     az aks create --resource-group $resourceGroupName --name $clusterName --node-count 1 --enable-addons monitoring `
-    --generate-ssh-keys --kubernetes-version 1.9.11 --tags environmentCode=$environmentCode partnerCode=$partnerCode
+    --generate-ssh-keys --kubernetes-version 1.11.8 --tags environmentCode=$environmentCode partnerCode=$partnerCode
 
     az aks install-cli
     az aks get-credentials --resource-group $resourceGroupName --name $clusterName
