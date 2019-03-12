@@ -1,0 +1,7 @@
+Let’s Encrypt: https://letsencrypt.org
+ACME Clients: https://letsencrypt.org/docs/client-options/
+k8s: https://kubernetes.io/
+AppsCode Voyager: https://github.com/appscode/voyager
+TrackSSL: https://trackssl.com
+SiteUptime: https://www.siteuptime.com
+SSL Server Test: https://www.ssllabs.com/ssltest/
