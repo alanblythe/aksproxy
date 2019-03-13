@@ -26,7 +26,7 @@ function DeployVoyager
 
     helm repo add appscode https://charts.appscode.com/stable/
     helm init --service-account tiller --upgrade --wait
-    helm install --name voyager801 appscode/voyager --namespace "$($environmentCode)-voyager-proxy" --set cloudProvider=aks --set rbac.create=true
+    helm install --name voyager801 appscode/voyager --version v8.0.1 --namespace "$($environmentCode)-voyager-proxy" --set cloudProvider=aks --set rbac.create=true
 
     kubectl patch deploy --namespace "$($environmentCode)-voyager-proxy" voyager-voyager801 --type json -p "$(Get-Content $PSScriptRoot/fix-voyager-healthprobe.yaml)"
 

@@ -6,11 +6,39 @@ metadata:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: net-alanblythe-demo-tls-secret
+  name: acme-account
   namespace: aks-proxy
-data:
-  tls.crt:  MGZhZTNhZTEtMjJjMS00MGE2LTgxM2ItZDVhOTUxMGQ1ZTdk
-  tls.key:  ZWNhOTcxNWEtYWE3YS00ZjM1LWE0NzUtMzk3ZTY3ZTEwMzE0
+type: Opaque
+stringData:
+  ACME_EMAIL: "alanblythe@hotmail.com"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: voyager-dnsmadeeasy
+  namespace: aks-proxy
+type: Opaque
+stringData:
+  DNSMADEEASY_API_KEY: "[fill me in]"
+  DNSMADEEASY_API_SECRET: "[fill me in]"
+  DNSMADEEASY_SANDBOX: "0"
+---
+apiVersion: voyager.appscode.com/v1beta1
+kind: Certificate
+metadata:
+  name: net-alanblythe-demo
+  namespace: aks-proxy
+spec:
+  domains:
+    - demo.alanblythe.net
+  acmeUserSecretName: acme-account
+  challengeProvider:
+    dns:
+      provider: dnsmadeeasy
+      credentialSecretName: voyager-dnsmadeeasy
+  storage:
+    secret:
+      name: cert-net-alanblythe-demo
 ---
 apiVersion: v1
 kind: Service
@@ -31,10 +59,11 @@ metadata:
   name: net-alanblythe-demo-ingress
   namespace: aks-proxy
   annotations:
+    ingress.appscode.com/keep-source-ip: "true"
     ingress.appscode.com/type: LoadBalancer
 spec:
   tls:
-  - secretName: net-alanblythe-demo-tls-secret
+  - secretName: cert-net-alanblythe-demo
     hosts:
     - demo.alanblythe.net
   rules:
