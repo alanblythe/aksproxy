@@ -4,10 +4,11 @@ metadata:
   name: net-alanblythe-demo-ingress
   namespace: aks-proxy
   annotations:
+    ingress.appscode.com/keep-source-ip: "true"
     ingress.appscode.com/type: LoadBalancer
 spec:
   tls:
-  - secretName: net-alanblythe-demo-tls-secret
+  - secretName: cert-net-alanblythe-demo
     hosts:
     - demo.alanblythe.net
   rules:
@@ -22,7 +23,5 @@ spec:
           backendRules:
           - 'acl response-is-redirect res.hdr(Location) -m found'
           - 'rspirep ^Location:\ (http|https)://(aksproxydemo20190312062330\.azurewebsites\.net)(.*) Location:\ https://demo.alanblythe.net\3 if response-is-redirect'
-          - 'http-response set-header X-Added-From-Proxy see we can add headers'
-          - 'rspirep ^value1 updatedvalue1'
-          - 'rspirep ^value2 updatedvalue2'
+          - 'http-request set-header X-Added-From-Proxy see_we_can_add_headers'
           
