@@ -24,4 +24,7 @@ Contains some example HaProxy rewrites
 **5. /AksProxyDemo**  
 An asp.net core simple API to demo rewrites with.
 
+**6. AzureDevOpsBuildTasks.txt**  
+Contains the Azure DevOps yaml for the release pipeline we're using
+
 
