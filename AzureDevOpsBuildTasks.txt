@@ -1,0 +1,36 @@
+steps:
+- task: DownloadPipelineArtifact@0
+  displayName: 'Download Pipeline Artifact'
+  inputs:
+    targetPath: '$(System.DefaultWorkingDirectory)/'
+
+steps:
+- task: Kubernetes@1
+  displayName: 'kubectl login'
+  inputs:
+    azureSubscriptionEndpoint: 'UniKey Test - MSDN Dev and Test (1dc68851-242b-4b0c-8724-15861ba7a07e)'
+    azureResourceGroup: 'plat-stg-proxy-rg'
+    kubernetesCluster: 'plat-stg-proxy-aks'
+    command: login
+    versionSpec: 1.7.0
+
+steps:
+- task: colinsalmcorner.colinsalmcorner-buildtasks.replace-tokens-task.ReplaceTokens@1
+  displayName: 'Replace tokens in $(System.DefaultWorkingDirectory)'
+  inputs:
+    sourcePath: '$(System.DefaultWorkingDirectory)'
+    filePattern: '*stg-*.yaml'
+    tokenRegex: '__([A-Za-z0-9_-]+)__'
+
+variables:
+  Unikey.EnvironmentCode: 'prd'
+
+steps:
+- task: PowerShell@2
+  displayName: 'PS1: Kubectl apply resources'
+  inputs:
+    targetType: ./
+    filePath: '$(System.DefaultWorkingDirectory)/DeployAksResources.ps1'
+    arguments: '-path $(System.DefaultWorkingDirectory) -environmentCode $(Unikey.EnvironmentCode)'
+
+	
