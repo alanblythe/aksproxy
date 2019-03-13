@@ -6,6 +6,9 @@ This repo contains the scripts and details used for my talk on 3/12/2019 at Orla
 
 Script and File Notes
 
+**presentation in PDF form**  
+20190312 - Kubernetes Traffic Management ACME.pdf
+
 **presentation-resources.txt**   
 for a links to various resources talked about in the presentation.
 
