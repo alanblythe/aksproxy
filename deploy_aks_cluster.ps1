@@ -53,6 +53,6 @@ function CreateAksAndKeyVault
 
 CreateAksAndKeyVault -environmentCode "demo" -clusterPrefix "aksproxy" `
 -subscriptionName "UniKey Dev - MSDN Dev and Test" `
--DNSMADEEASY_API_KEY "0fae3ae1-22c1-40a6-813b-d5a9510d5e7d" -DNSMADEEASY_API_SECRET "eca9715a-aa7a-4f35-a475-397e67e10314" `
+-DNSMADEEASY_API_KEY "[YOU NEED]" -DNSMADEEASY_API_SECRET "[TO COMPLETE ME]" `
 -ErrorAction Stop
 
